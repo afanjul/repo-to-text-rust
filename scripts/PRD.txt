@@ -1,0 +1,89 @@
+## Documento de Requisitos del Producto (PRD) - RepoToText
+
+**Versión:** 1.0
+**Fecha:** 14 de abril de 2025
+
+### 1. Introducción y Propósito
+
+*   **Producto:** RepoPrompt Clone
+*   **Propósito:** Crear una aplicación de escritorio nativa para macOS que permita a los usuarios escanear directorios locales, listar los archivos contenidos, seleccionar uno o varios archivos y copiar su contenido combinado al portapapeles. El enfoque principal es la máxima velocidad en las operaciones del sistema de archivos (escaneo, listado, lectura)[3],[8].
+*   **Problema:** Los desarrolladores y usuarios avanzados a menudo necesitan agregar rápidamente el contenido de múltiples archivos de código fuente o texto en un solo bloque para usarlo en otras aplicaciones (ej. herramientas de IA, documentación). Navegar manualmente y copiar/pegar desde múltiples archivos es tedioso y lento[3].
+*   **Público Objetivo:** Desarrolladores de software, ingenieros de IA, escritores técnicos y cualquier usuario de macOS que necesite consolidar rápidamente el contenido de múltiples archivos de texto[4],[5].
+
+### 2. Objetivos y Metas
+
+*   **Objetivo Principal:** Ofrecer la herramienta más rápida disponible en macOS para seleccionar y extraer el contenido de múltiples archivos locales al portapapeles[4],[5].
+*   **Metas Específicas:**
+    *   Minimizar la latencia en el escaneo de directorios y listado de archivos, incluso en proyectos con miles de ficheros.
+    *   Proporcionar una interfaz de usuario (UI) extremadamente simple, rápida y eficiente.
+    *   Permitir la copia del contenido de los archivos seleccionados al portapapeles con una sola acción.
+    *   Garantizar el rendimiento óptimo y la integración nativa con macOS[2].
+    *   Utilizar el lenguaje de programación que ofrezca el mejor rendimiento para operaciones intensivas de I/O de archivos en macOS[6].
+
+### 3. Requisitos Funcionales
+
+*   **Selección de Directorio:**
+    *   El usuario debe poder seleccionar un directorio raíz a través de un diálogo nativo de macOS.
+*   **Escaneo y Listado de Archivos:**
+    *   La aplicación debe escanear recursivamente el directorio seleccionado.
+    *   Debe mostrar una vista de árbol o lista filtrable de los archivos encontrados (excluyendo archivos ocultos por defecto)[5].
+    *   El listado debe actualizarse rápidamente al seleccionar un nuevo directorio.
+    *   Debe existir una opción (configurable o por defecto) para ignorar directorios comunes (ej. `.git`, `node_modules`, `build`, `__pycache__`).
+*   **Selección de Archivos:**
+    *   El usuario debe poder seleccionar uno o múltiples archivos de la lista mediante clics estándar (ej. Cmd+Click, Shift+Click)[5].
+*   **Copia al Portapapeles:**
+    *   Un botón claramente visible ("Copiar al Portapapeles") debe tomar el contenido de todos los archivos seleccionados, concatenarlo (en el orden de selección o alfabético) y copiarlo al portapapeles del sistema[5].
+    *   Debe haber una opción (checkbox o preferencia) para incluir el nombre de cada archivo como un comentario antes de su respectivo contenido en el texto copiado.
+
+### 4. Requisitos No Funcionales
+
+*   **Rendimiento:** La prioridad absoluta es la velocidad de escaneo y lectura de archivos. La implementación debe minimizar el uso de memoria y CPU, siendo eficiente incluso con directorios muy grandes[3].
+*   **Lenguaje de Programación:** Se utilizará **Rust**. Rust ofrece un rendimiento comparable a C/C++ para operaciones de sistema, seguridad de memoria sin recolector de basura (evitando pausas), y excelentes capacidades de concurrencia, lo que lo hace ideal para tareas intensivas de I/O en disco[6]. Su compilador ayuda a detectar errores temprano[6]. Go es una alternativa viable si Rust presenta dificultades inesperadas[2].
+*   **Compatibilidad:** La aplicación debe funcionar en las versiones recientes de macOS (ej. macOS 13 Ventura y posteriores)[2].
+*   **Usabilidad:** La interfaz debe ser minimalista, intuitiva y centrada exclusivamente en el flujo principal: seleccionar directorio -> seleccionar archivos -> copiar[3]. Sin configuraciones complejas.
+*   **Fiabilidad:** La aplicación debe manejar correctamente errores como problemas de permisos o archivos no legibles sin bloquearse[3].
+
+### 5. Diseño y Experiencia de Usuario (UX)
+
+*   Se prefiere una interfaz gráfica de usuario (GUI) nativa de macOS (AppKit o SwiftUI) para asegurar la mejor integración y rendimiento.
+*   **Flujo Principal:**
+    1.  Botón "Seleccionar Directorio".
+    2.  Panel izquierdo mostrando el árbol de archivos/directorios filtrados.
+    3.  Panel derecho (opcional, podría ser el mismo panel izquierdo) para mostrar los archivos seleccionados.
+    4.  Botón "Copiar al Portapapeles".
+*   Incluir una indicación visual simple (ej. spinner) durante escaneos largos.
+*   No se requieren temas complejos ni personalización visual extensa.
+
+### 6. Criterios de Lanzamiento (Versión 1.0)
+
+*   Todas las funcionalidades descritas en la sección 3 están implementadas y funcionales[3].
+*   El rendimiento de escaneo es notablemente rápido en directorios de prueba (ej. un repositorio grande como el kernel de Linux o un proyecto Node.js grande).
+*   La aplicación es estable y no presenta cierres inesperados durante el uso normal en las versiones de macOS soportadas[3].
+*   La copia al portapapeles funciona correctamente con diferentes tipos de archivos de texto y tamaños.
+
+### 7. Alcance (Fuera de Alcance para v1.0)
+
+*   Edición de archivos.
+*   Visualización previa del contenido del archivo dentro de la app.
+*   Soporte para sistemas operativos diferentes a macOS.
+*   Funcionalidades avanzadas de filtrado o búsqueda de texto dentro de los archivos.
+*   Integración con sistemas de control de versiones (Git).
+*   Detección automática del lenguaje de programación[1].
+
+### 8. Asunciones
+
+*   Los usuarios tendrán permisos de lectura para los directorios que intenten escanear[7].
+*   La velocidad de las operaciones de E/S es el factor crítico de éxito[7].
+*   Rust y sus bibliotecas estándar/comunitarias (ej. `tokio` para asincronía si es necesario, `walkdir` para escaneo) proporcionan las herramientas adecuadas para lograr el rendimiento requerido en macOS[6].
+
+### 9. Preguntas Abiertas
+
+*   ¿Cuál es el límite práctico en cuanto al número de archivos o tamaño total del directorio que se espera manejar eficientemente?
+*   ¿Se necesita manejar codificaciones de archivo específicas (aparte de UTF-8)?
+*   ¿La lista de directorios a ignorar debe ser configurable por el usuario?[7]
+
+### 10. Métricas de Éxito
+
+*   Tiempo medido para escanear directorios de prueba estándar.
+*   Uso de CPU y memoria durante el escaneo y la inactividad.
+*   Feedback de usuarios centrado en la velocidad y simplicidad[5],[7].
