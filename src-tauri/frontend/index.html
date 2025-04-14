@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepoToText</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>RepoToText</h1>
+            <div class="actions">
+                <button id="openDirBtn" class="btn primary">Abrir Directorio</button>
+                <button id="copyBtn" class="btn secondary" disabled>Copiar Contenido</button>
+            </div>
+        </header>
+        
+        <div class="path-display">
+            <span id="currentPath">Ningún directorio seleccionado</span>
+        </div>
+        
+        <div class="main-content">
+            <div class="file-explorer">
+                <h2>Explorador de Archivos</h2>
+                <div id="fileList" class="file-list"></div>
+            </div>
+            
+            <div class="selected-files">
+                <h2>Archivos Seleccionados</h2>
+                <div id="selectedList" class="selected-list"></div>
+                
+                <!-- Opciones de Formato -->
+                <div class="format-options">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="includeTreeCheckbox" name="includeTree">
+                        <label for="includeTreeCheckbox">Incluir Árbol de Archivos</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div id="status" class="status">Listo</div>
+        </footer>
+    </div>
+    
+    <script src="app.js" defer></script>
+</body>
+</html>

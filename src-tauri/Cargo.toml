@@ -1,0 +1,47 @@
+[package]
+name = "repototext"
+version = "0.1.0"
+description = "Aplicación para escanear directorios y copiar contenido de archivos al portapapeles"
+authors = ["Alex"]
+license = ""
+repository = ""
+edition = "2021"
+rust-version = "1.77.2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.1.1", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+tauri = { version = "2.4.1", features = ["macos-private-api"] }
+tauri-plugin-clipboard = "2.0.0-rc"
+tauri-plugin-dialog = "2.0.0-rc"
+tauri-plugin-fs = "2.0.0-rc"
+tauri-plugin-shell = "2.0.0-rc"
+tauri-plugin-log = "2.0.0-rc"
+tokio = { version = "1.35.1", features = ["full"] }
+walkdir = "2.4.0"
+clipboard = "0.5.0"
+glob = "0.3.1"
+rfd = "0.14.1"
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
+
+
+[build]
+rustflags = ["-A", "warnings"]
+
+[lints.rust]
+dead_code = "allow"
+unused_variables = "allow"
