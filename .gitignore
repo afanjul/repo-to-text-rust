@@ -31,3 +31,7 @@ tasks/
 # Added by cargo
 
 /target
+
+# Added by tauri
+
+/src-tauri/target
