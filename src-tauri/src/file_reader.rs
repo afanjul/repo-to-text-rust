@@ -1,6 +1,5 @@
 use std::fs;
 use std::io::{self, Read};
-use std::path::Path;
 
 // Función para leer el contenido de un archivo
 pub fn read_file(path: &str) -> io::Result<String> {
